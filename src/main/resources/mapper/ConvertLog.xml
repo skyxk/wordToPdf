@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.clt.ess.dao.IConvertLogDao">
+
+    <resultMap type="ConvertLog" id="ConvertLogMap">
+        <id property="fid" column="fid"/>
+        <result property="wordpath" column="wordpath"/>
+        <result property="pdfpath" column="pdfpath"/>
+        <result property="convertstatus" column="convertstatus"/>
+    </resultMap>
+
+    <select id="findConvertLogById" parameterType="int" resultMap="ConvertLogMap">
+        SELECT * FROM convertlog
+        WHERE fid = #{fid}
+    </select>
+    <select id="findConvertLogByState" resultMap="ConvertLogMap">
+        select * from convertlog where convertstatus = "ESSB@0@ESSE" limit 1
+    </select>
+    <insert id="addConvertLog"  useGeneratedKeys="true" keyProperty="fid">
+        INSERT INTO
+        convertlog(wordpath,pdfpath,convertstatus)
+        VALUES
+        (#{wordpath},#{pdfpath},#{convertstatus})
+    </insert>
+
+
+    <update id="updateConvertLog"  parameterType="ConvertLog">
+        update  convertlog set convertstatus = #{convertstatus}  where fid = #{fid}
+        <!--<set>-->
+            <!--<if test="wordpath != null">-->
+                <!--wordpath = #{wordpath},-->
+            <!--</if>-->
+            <!--<if test="pdfpath != null">-->
+                <!--pdfpath = #{pdfpath},-->
+            <!--</if>-->
+            <!--<if test="convertstatus != null">-->
+                <!--convertstatus = #{convertstatus}-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--where fid = #{fid}-->
+    </update>
+
+</mapper>
