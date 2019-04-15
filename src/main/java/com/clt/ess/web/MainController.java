@@ -70,6 +70,9 @@ public class MainController {
     private String createConvertLog(String fileUrl,String systemId){
         String result = "ESSB@0@ESSE";
         SysInfo sysInfo = sysInfoDao.findSysInfoById(systemId);
+        if (sysInfo==null){
+            return "ESSB@ERRORCODE1@ESSE";
+        }
         String uuid = getUUID();
         String pdfPath = sysInfo.getFtppath() +"/pdf/"+uuid+".pdf";
         String wordPath = sysInfo.getFtppath() +"/word/"+uuid+".doc";
@@ -83,7 +86,7 @@ public class MainController {
             result = "ESSB@"+ convertLog.getFid() +"@ESSE";
         } catch (IOException e) {
             e.printStackTrace();
-            result = "ESSB@ERROR@ESSE";
+            result = "ESSB@ERRORCODE2@ESSE";
         }
         return result;
 //        int wait = 200;
